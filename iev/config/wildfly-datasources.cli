@@ -1,0 +1,7 @@
+module add --name=org.postgres --resources=/tmp/postgresql.jar --dependencies=javax.api,javax.transaction.api
+/subsystem=datasources/jdbc-driver=postgresql:add(driver-name="postgresql",driver-module-name="org.postgres",driver-xa-datasource-class-name=org.postgresql.xa.PGXADataSource)
+data-source add --jndi-name=java:jboss/datasources/cvdtc_iev --name=cvdtc_iev --connection-url=jdbc:postgresql://cvdtc-postgres:5432/cvdtc_iev  --driver-name=postgresql --user-name=chouette --password=chouette
+/subsystem=ee/managed-executor-service=default/ :write-attribute(name=max-threads,value=15)
+/subsystem=ee/managed-executor-service=default/ :write-attribute(name=queue-length,value=15)
+/subsystem=undertow/server=default-server/http-listener=default/ :write-attribute(name=max-post-size, value=100000000)
+
